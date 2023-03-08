@@ -56,6 +56,10 @@ You can pass any keyword arguments to the `identify` and `track` methods. These 
 
 See original REST documentation [here](http://customer.io/docs/api/rest.html#section-Creating_or_updating_customers)
 
+### Add user to a segment
+
+cio.segment(segment_id=1, customer_id=[5, 7, 11, 13])
+
 ### Track a custom event
 
 ```python
