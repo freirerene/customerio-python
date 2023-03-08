@@ -58,7 +58,9 @@ See original REST documentation [here](http://customer.io/docs/api/rest.html#sec
 
 ### Add user to a segment
 
+```python
 cio.segment(segment_id=1, customer_id=[5, 7, 11, 13])
+```
 
 ### Track a custom event
 
