@@ -35,6 +35,9 @@ class CustomerIO(ClientBase):
     def _url_encode(self, id):
         return quote(str(id), safe='')
 
+    def _segment_lists(self, id):
+        return [str(i) for i in id]
+
     def setup_base_url(self):
         template = 'https://{host}:{port}/{prefix}'
         if self.port == 443:
@@ -63,6 +66,22 @@ class CustomerIO(ClientBase):
     def get_device_query_string(self, customer_id):
         '''Generates a device API path'''
         return '{base}/customers/{id}/devices'.format(base=self.base_url, id=self._url_encode(customer_id))
+
+    def get_segment_query_string(self, segment_id):
+        '''Generates a device API path'''
+        return '{base}/segments/{id}/add_customers'.format(base=self.base_url, id=self._url_encode(segment_id))
+
+    def segment(self, segment_id, customer_id, **data):
+        '''Add customer to segment'''
+        if not customer_id:
+            raise CustomerIOException("customer_id cannot be blank in track")
+        if not segment_id:
+            raise CustomerIOException("segment_id cannot be blank in track")
+        url = self.get_segment_query_string(segment_id)
+        post_data = {
+            'ids': self._segment_lists(customer_id),
+        }
+        self.send_request('POST', url, post_data)
 
     def identify(self, id, **kwargs):
         '''Identify a single customer by their unique id, and optionally add attributes'''
